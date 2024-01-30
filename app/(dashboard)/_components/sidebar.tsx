@@ -1,4 +1,5 @@
 import { Logo } from "./logo";
+import { SidebarRoutes } from "./sidebar-routes";
 
 export const Sidebar = () => {
     return (
@@ -7,7 +8,7 @@ export const Sidebar = () => {
                 <Logo/>
             </div>
             <div className="flex flex-col w-full">
-                
+                <SidebarRoutes/>
             </div>
 
         </div>

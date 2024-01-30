@@ -7,18 +7,18 @@ const guestRoutes = [
     {
         icon: Layout,
         label: "Dashboard",
-        href: '/'
+        href: "/",
     },
     {
         icon: Compass,
         label: "Browse",
-        href: '/search'
+        href: "/search",
     },
 ]
 export const SidebarRoutes = () => {
     const routes = guestRoutes;
     return (
-        <div className="flex flex-col w-full">
+        <div className="flex flex-col w-full ">
             {
                 routes.map((route) => (
                     <SidebarItem
