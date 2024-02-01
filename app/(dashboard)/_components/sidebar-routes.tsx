@@ -18,7 +18,7 @@ const guestRoutes = [
 export const SidebarRoutes = () => {
     const routes = guestRoutes;
     return (
-        <div className="flex flex-col w-full ">
+        <div className="flex flex-col w-full">
             {
                 routes.map((route) => (
                     <SidebarItem

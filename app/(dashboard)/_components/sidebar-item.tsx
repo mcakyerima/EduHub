@@ -32,7 +32,7 @@ export const SidebarItem = ({
         <div className="flex items-center gap-x-2 py-4">
             <Icon
                 size={22}
-                className={cn(
+                className={cn( 
                     "text-slate-500",
                     isActive && "text-sky-700"
                 )}
@@ -40,7 +40,7 @@ export const SidebarItem = ({
             {label}
         </div>
         <div className={cn(
-            "ml-auto opacity-0 border-2 border-sky-800 h-6 rounded transition-all",
+            "ml-auto opacity-0 border-2 border-sky-700 h-6 rounded transition-all",
             isActive && "opacity-100"
         )}/>
        </button>
