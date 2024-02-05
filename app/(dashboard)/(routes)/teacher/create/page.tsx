@@ -24,6 +24,7 @@ const formSchema = z.object({
 });
 
 const CreatePage = () => {
+// creating form hook
     const form = useForm<z.infer<typeof formSchema>>({
         resolver: zodResolver(formSchema),
         defaultValues: {
@@ -31,9 +32,24 @@ const CreatePage = () => {
         },
     });
 
+    // extract the state from the forms
+    const { isSubmitting, isValid } = form.formState;
+
+    const onSubmit = (values: z.infer<typeof formSchema>) => {
+        console.log(values)
+    }
+
     return ( 
-        <div>
-            Create Page
+        <div className="max-w-5xl mx-auto flex md:items-center md:justify-center h-full p-6">
+            <div>
+                <h1 className="text-2xl">
+                    Name your course
+                </h1>
+                <p>
+                    what would you like to name your course
+                </p>
+            </div>
+
         </div>
      );
 }
