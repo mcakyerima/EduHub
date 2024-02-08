@@ -4,7 +4,7 @@ import * as z from "zod";
 import axios from "axios";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
-import { useRouter } from "next/router";
+import { useRouter } from "next/navigation";
 import Link from "next/link";
 
 import {
@@ -18,7 +18,7 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-
+import toast from "react-hot-toast";
 
 // create a form schema
 const formSchema = z.object({
@@ -39,8 +39,19 @@ const CreatePage = () => {
     // extract the state from the forms
     const { isSubmitting, isValid } = form.formState;
 
-    const onSubmit = (values: z.infer<typeof formSchema>) => {
-        console.log(values)
+    // get router object
+    const router = useRouter();
+    const onSubmit = async (values: z.infer<typeof formSchema>) => {
+        try {
+            // post values to courses endpoint
+            const response = await axios.post("/api/courses", values);
+            toast.success("Course Created");
+            // Redirect to courses
+            console.log("Response: ", response);
+            router.push(`/teacher/courses/${response.data.id}`)
+        } catch {
+            toast.error("An Error occured");
+        }
     }
 
     return ( 
@@ -91,6 +102,7 @@ const CreatePage = () => {
                             </Link>
                             <Button
                                 type="submit"
+                                disabled={ !isValid || isSubmitting }
                             >
                                 Continue
                             </Button>

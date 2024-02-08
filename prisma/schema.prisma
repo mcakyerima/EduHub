@@ -1,0 +1,59 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgres"
+  url      = "postgres://avnadmin:AVNS_VobyLjwpnPTUwCIKIYQ@pg-136499e9-mcakyerima-87d7.a.aivencloud.com:15957/defaultdb?sslmode=require"
+  relationMode = "prisma"
+}
+
+// Define a User model
+model User {
+  id       Int      @id @default(autoincrement())
+  username String
+  email    String   @unique
+}
+
+model Course {
+  id String @id @default(uuid())
+  userId String
+  title String @db.Text
+  description String? @db.Text
+  imageUrl String? @db.Text
+  price Float?
+  isPublished Boolean @default(false)
+
+  categoryId String?
+
+  category Category? @relation(fields: [categoryId], references: [id])
+
+  attachments Attachment[]
+
+  createdAt DateTime @default(now())
+
+  @@index([categoryId])
+}
+
+model Category {
+  id String @id @default(uuid())
+  name String @unique
+  course Course[]
+}
+
+model Attachment {
+  id String @id @default(uuid())
+  name String
+  url String @db.Text
+  courseId String
+  course Course @relation(fields: [ courseId ], references: [id], onDelete: Cascade)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([courseId])
+
+}
