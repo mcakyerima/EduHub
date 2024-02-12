@@ -42,6 +42,10 @@ const iconVariants = cva(
             defaultVariants : {
                 variant: "default",
                 size: "default"
+            },
+            defaultVariants : {
+                variant: "default",
+                size: "default"
             }
         }
     }
@@ -51,5 +55,5 @@ type BackgroundVariantsProps = VariantProps<typeof backgroundVariants>;
 type iconVariantsProps = VariantProps<typeof iconVariants>;
 
 interface IconBadgeProps extends BackgroundVariantsProps, iconVariantsProps {
-    
+
 }
