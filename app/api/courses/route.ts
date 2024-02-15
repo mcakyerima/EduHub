@@ -11,7 +11,7 @@ export  async function POST(
 
         //  handle empty userId
         if (!userId) {
-            return new NextResponse("Unauthorized", {status: 301});
+            return new NextResponse("Unauthorized", {status: 401});
         }
 
         // creating course
