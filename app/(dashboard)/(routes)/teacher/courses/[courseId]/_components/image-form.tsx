@@ -17,26 +17,28 @@ import {
 } from "@/components/ui/form";
 
 import { Button } from "@/components/ui/button";
-import { Pencil } from "lucide-react";
+import { Pencil, PlusCircle, ImageIcon } from "lucide-react";
 import { useState } from "react";
 import { cn } from "@/lib/utils";
 import { Textarea } from "@/components/ui/textarea";
+import Image from "next/image";
+import { FileUpload } from "@/components/file-upload";
 
 // validate form with zod schema validation
 const formSchema = z.object({
-    description: z.string().min(1, {
-        message: "Title is required",
+    imageUrl: z.string().min(1, {
+        message: "Image is required",
     })
 });
-interface DescriptionFormProps {
+interface ImageFormProps {
     initialData: Course
     courseId: string;
 };
 
-export const DescriptionForm = ({
+export const ImageForm = ({
     initialData,
     courseId,
-}: DescriptionFormProps ) => {
+}: ImageFormProps ) => {
     // state for keeping track of editing Description: if editing, show editing else show the title
     const [ isEditing, setIsEditing ] = useState(false);
 
@@ -45,7 +47,7 @@ export const DescriptionForm = ({
     const form = useForm<z.infer<typeof formSchema>>({
         resolver: zodResolver(formSchema),
         defaultValues: {
-            description: initialData?.description || ""
+            imageUrl: initialData?.imageUrl || "",
         },
     });
 
@@ -71,58 +73,57 @@ export const DescriptionForm = ({
     return ( 
         <div className="mt-6 border bg-slate-100 rounded-md p-4">
             <div className="font-medium flex items-center justify-between">
-                Course Description
+                Course Image
                 <Button onClick={toggleEdit} variant={"ghost"}>
-                    {isEditing ? (
-                        <>Cancel</>
-                    ) : (
+                    {isEditing && (
+                        <>
+                            Cancel
+                        </>
+                    )}
+                    {!isEditing  && !initialData.imageUrl && (
+                        <>
+                            <PlusCircle className="h-4 w-4 mr-2"/>
+                            Add an image
+                        </>
+                    )}
+                    {!isEditing && initialData.imageUrl && (
                         <>
                             <Pencil className="h-4 w-4 mr-2"/>
-                            Edit Description
+                            Edit image
                         </>
                     )}
                 </Button>
             </div>
             {!isEditing && (
-                <p className={cn(
-                    "text-sm mt-2",
-                    !initialData.description && "text-slate-500 italic"
-                )}>
-                    {initialData.description || "No description"}
-                </p>
+                !initialData.imageUrl ? (
+                    <div className="flex items-center justify-center h-60 bg-slate-200 rounded-md">
+                        <ImageIcon className="h-10 w-10 text-slate-500"/>
+                    </div>
+                ) : (
+                    <div className="relative aspect-video">
+                        <Image
+                            alt="Upload"
+                            fill
+                            className="object-cover rounded-md"
+                            src={initialData.imageUrl}
+                        />
+                    </div>
+                )
             )}
             {isEditing && (
-                <Form {...form}>
-                    <form
-                        onSubmit={form.handleSubmit(onSubmit)}
-                        className="space-y-4 mt-4"  
-                    >
-                        <FormField
-                            control={form.control}
-                            name="description"
-                            render={({field}) => (
-                                <FormItem>
-                                    <FormControl>
-                                        <Textarea
-                                            disabled={isSubmitting}
-                                            placeholder="e.g 'This course is about'"
-                                            {...field}
-                                        />
-                                    </FormControl>
-                                    <FormMessage/>
-                                </FormItem>
-                            )}
-                        />
-                        <div className="flex items-center gap-x-2">
-                            <Button
-                                type="submit"
-                                disabled={!isValid || isSubmitting}
-                            >
-                                Save
-                            </Button>
-                        </div>
-                    </form>
-                </Form>
+                <div>
+                    <FileUpload
+                        endpoint="courseImage"
+                        onChange={(url) => {
+                            if (url) {
+                                onSubmit({ imageUrl: url})
+                            }
+                        }}
+                    />
+                    <div className="text-xs text-muted-foreground mt-4">
+                        16:9 aspect ration recommended
+                    </div>
+                </div>
             )}
         </div>
      );
