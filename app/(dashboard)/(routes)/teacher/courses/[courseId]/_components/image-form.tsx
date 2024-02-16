@@ -2,33 +2,23 @@
 
 import * as z from "zod";
 import axios from "axios";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { useForm } from "react-hook-form";
 import toast from "react-hot-toast";
 import { useRouter } from "next/navigation";
 import { Course } from "@prisma/client";
+import Image from "next/image";
 
-import {
-    Form,
-    FormControl,
-    FormField,
-    FormItem,
-    FormMessage
-} from "@/components/ui/form";
 
 import { Button } from "@/components/ui/button";
 import { Pencil, PlusCircle, ImageIcon } from "lucide-react";
 import { useState } from "react";
-import { cn } from "@/lib/utils";
-import { Textarea } from "@/components/ui/textarea";
-import Image from "next/image";
+
 import { FileUpload } from "@/components/file-upload";
 
 // validate form with zod schema validation
 const formSchema = z.object({
     imageUrl: z.string().min(1, {
         message: "Image is required",
-    })
+    }),
 });
 interface ImageFormProps {
     initialData: Course
@@ -44,22 +34,13 @@ export const ImageForm = ({
 
     // A sinple toggle for the title editing state
     const toggleEdit = () => setIsEditing((current) => !current);
-    const form = useForm<z.infer<typeof formSchema>>({
-        resolver: zodResolver(formSchema),
-        defaultValues: {
-            imageUrl: initialData?.imageUrl || "",
-        },
-    });
 
-
-    // destructure the submitting and valid states
-    const { isSubmitting, isValid } = form.formState;
     const router = useRouter();
     
     const onSubmit = async (values: z.infer<typeof formSchema>) => {
         try {
             await axios.patch(`/api/courses/${courseId}`, values);
-            toast.success("Course updated successfully");
+            toast.success("Image Added Successfully");
             // call toggle state to change from cancel to edit
             toggleEdit();
             // useRouter.refresh() re-renders the page component by refetching the course
@@ -116,7 +97,7 @@ export const ImageForm = ({
                         endpoint="courseImage"
                         onChange={(url) => {
                             if (url) {
-                                onSubmit({ imageUrl: url})
+                                onSubmit({ imageUrl: url});
                             }
                         }}
                     />

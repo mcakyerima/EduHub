@@ -1,5 +1,5 @@
-import { db } from "@/lib/db";
 import { auth } from "@clerk/nextjs";
+import { db } from "@/lib/db";
 import { NextResponse } from "next/server";
 
 export async function PATCH(
@@ -8,6 +8,8 @@ export async function PATCH(
 ) {
     try {
         const { userId } = auth();
+        console.log("[PATCH USER ID]", userId);
+
         const { courseId } = params;
         const values = await req.json();
         // ensure user is authenticated
