@@ -10,6 +10,7 @@ import { ImageForm } from "./_components/image-form";
 import { CategoryForm } from "./_components/category-form";
 import { PriceForm } from "./_components/price-form";
 import { AttachmentForm } from "./_components/attachement-form";
+import { ChaptersForm } from "./_components/chapters-form";
 
 const CourseIdPage = async ({
     params
@@ -24,9 +25,15 @@ const CourseIdPage = async ({
     // finding a course by id in the db
     const course = await db.course.findUnique({
         where: {
-            id: params.courseId
+            id: params.courseId,
+            userId
         },
         include: {
+            chapters: {
+                orderBy: {
+                    position: "asc"
+                }
+            },
             attachments: {
                 orderBy: {
                     createdAt: "desc"
@@ -49,13 +56,14 @@ const CourseIdPage = async ({
         redirect("/");
     }
 
-    // array of required field for course
+    // array of required field for course which is used to display the number of added field over the once to be added
     const requiredFields = [
         course.title,
         course.description,
         course.imageUrl,
         course.price,
-        course.categoryId
+        course.categoryId,
+        course.chapters.some(chapter => chapter.isPublished),
     ];
 
     const totalFields = requiredFields.length;
@@ -112,9 +120,10 @@ const CourseIdPage = async ({
                                 Course chapters
                             </h2>
                         </div>
-                        <div>
-                            TODO: CHAPTERS
-                        </div>
+                        <ChaptersForm
+                            initialData={course}
+                            courseId={course.id}
+                        />
                     </div>
                     <div>
                         <div className="flex items-center gap-x-2">
