@@ -21,6 +21,7 @@ import { Pencil, PlusCircle } from "lucide-react";
 import { useState } from "react";
 import { cn } from "@/lib/utils";
 import { Input } from "@/components/ui/input";
+import { ChaptersList } from "./chapters-list"
 
 // validate form with zod schema validation
 const formSchema = z.object({
@@ -28,7 +29,7 @@ const formSchema = z.object({
 });
 
 interface ChaptersFormProps {
-    initialData: Course & {chapters: Chapter}
+    initialData: Course & {chapters: Chapter[]}
     courseId: string;
 };
 
@@ -37,7 +38,7 @@ export const ChaptersForm = ({
     courseId,
 }: ChaptersFormProps ) => {
     // state for keeping track of creating: if creating, show creating else show the title
-    const [ isUpdating, setIsUPdating ] = useState(false);
+    const [ isUpdating, setIsUpdating ] = useState(false);
     const [ isCreating, setIsCreating ] = useState(false);
 
     // A sinple toggle for the title creating state
@@ -70,6 +71,23 @@ export const ChaptersForm = ({
             toast.error("Something went wrong!")
         }
     };
+
+    // on Reorder function to keep track of reordered items
+    const onReorder = async (updateData: { id: string; position: number}[]) => {
+        try{
+            setIsUpdating(true);
+            // put changes to db affter reorder
+            await axios.put(`/api/courses/${courseId}/chapters/reorder`, {
+                list: updateData
+            });
+            toast.success("Chapters reordered");
+            router.refresh();
+        }catch {
+            toast.error("Something went wrong");
+        }finally {
+            setIsUpdating(false);
+        }
+    }
 
     return ( 
         <div className="mt-6 border bg-slate-100 rounded-md p-4">
@@ -123,7 +141,12 @@ export const ChaptersForm = ({
                     !initialData.chapters.length && "text-slate-500 italic"
                 )}>
                     {!initialData.chapters.length && "No chapters"}
-                    {/* TODO: add a list of chapters*/}
+
+                    <ChaptersList
+                        onEdit={() => {}}
+                        onReorder={onReorder}
+                        items={initialData.chapters || []}
+                    />
                 </div>
             )}
             {!isCreating && (
