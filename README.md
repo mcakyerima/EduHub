@@ -1,5 +1,7 @@
 # 🚀 Welcome to EduHub - Empowering Futures through Knowledge 📚
 
+![EduHub Landing Page](https://i.imgur.com/hDxWDiz.png)
+
 EduHub is a sophisticated learning management system (LMS) meticulously crafted to bridge knowledge gaps and empower individuals to reach their full potential. With a focus on professionalism and scalability, EduHub is not just another generic project but a robust SASS (Software as a Service) application designed to revolutionize the education sector.
 
 ### 🌟 Key Features
@@ -53,5 +55,13 @@ To kickstart your journey with EduHub, follow these simple steps:
 ### 🚀 Deploy with Confidence
 
 Ready to take your EduHub project to the next level? Deploy with confidence using the Vercel platform, backed by the creators of Next.js. For detailed deployment instructions and best practices, refer to our [Next.js deployment documentation](https://nextjs.org/docs/deployment).
+
+### Introduction
+
+EduHub is more than just a project; it's a commitment to empowering learners and educators worldwide. Our platform serves as a beacon of knowledge, providing access to quality education regardless of geographical or economic barriers. Check out our deployed site [here](https://eduhub-landing-page.vercel.app/) and delve deeper into our journey through our final project blog article. Connect with the author, Mohammed Kaka, on [LinkedIn](https://www.linkedin.com/in/mohammed-ak-yerima-a69144195/).
+
+### Licensing
+
+This project is licensed under the [MIT License](https://opensource.org/licenses/MIT) - see the [LICENSE](LICENSE) file for details.
 
 Let's revolutionize education together with EduHub - where knowledge meets innovation! 🌟
