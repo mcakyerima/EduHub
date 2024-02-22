@@ -1,4 +1,4 @@
-🚀 ## Welcome to EduHub - Empowering Futures through Knowledge 📚
+# 🚀 Welcome to EduHub - Empowering Futures through Knowledge 📚
 
 EduHub is a sophisticated learning management system (LMS) meticulously crafted to bridge knowledge gaps and empower individuals to reach their full potential. With a focus on professionalism and scalability, EduHub is not just another generic project but a robust SASS (Software as a Service) application designed to revolutionize the education sector.
 
