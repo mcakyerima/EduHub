@@ -11,7 +11,7 @@ export async function PUT(
 
         const { userId } = auth();
         if (!userId) {
-            return new NextResponse("Unauthorized", { status: 500 });
+            return new NextResponse("Unauthorized", { status: 401 });
         }
 
         //  get the chapters list from api request
