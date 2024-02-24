@@ -80,4 +80,8 @@ body,
   }
 }
 
+/* CSS for styling capter preview */
+.ql-container {
+  font-size: 13px !important;
+}
 @import "~@uploadthing/react/styles.css"
