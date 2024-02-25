@@ -50,7 +50,7 @@ const CourseIdPage = async ({
     });
 
     // console.log(categories);
-
+    // console.log("[COURSE]", course);
     //if no course, redirect home
     if (!course) {
         redirect("/");

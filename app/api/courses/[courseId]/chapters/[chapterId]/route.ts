@@ -1,7 +1,14 @@
+import { Asset } from './../../../../../../node_modules/@mux/mux-node/resources/video/assets.d';
+import Mux from "@mux/mux-node";
 import { db } from "@/lib/db";
 import { auth } from "@clerk/nextjs";
 import { NextResponse } from "next/server";
 
+// fetch must keys
+const { video } = new Mux({
+    tokenId: process.env.MUX_TOKEN_ID,
+    tokenSecret: process.env.MUX_TOKEN_SECRET,
+});
 
 export async function PATCH(
     req: Request,
@@ -43,7 +50,44 @@ export async function PATCH(
             }
         });
 
+        
+
         // TODO: handle video upload.
+        if(values.videoUrl) {
+            // check if their is an existing video for the chapter.
+            const existingMuxData = await db.muxData.findFirst({
+                where: {
+                    chapterId: params.chapterId
+                }
+            });
+
+            // if it exist, delete video before adding new one.
+            if (existingMuxData) {
+                // delete video before adding new one
+                await video.assets.delete(existingMuxData.assetId);
+                await db.muxData.delete({
+                    where: {
+                        id:existingMuxData.id,
+                    }
+                });
+            }
+
+            // create Mux video asset
+            const asset = await video.assets.create({
+                input: values.videoUrl,
+                playback_policy: ['public'],
+                test: false
+            });
+
+            // Add to db
+            await db.muxData.create({
+                data: {
+                    chapterId: params.chapterId,
+                    assetId: asset.id,
+                    playbackId: asset.playback_ids?.[0]?.id,
+                }
+            });
+        }
 
         // return updated course
         return NextResponse.json(chapter, { status: 200});

@@ -29,11 +29,10 @@ model Course {
   isPublished Boolean @default(false)
 
   categoryId String?
-
   category Category? @relation(fields: [categoryId], references: [id])
 
-  attachments Attachment[]
   chapters   Chapter[]
+  attachments Attachment[]
   purchases Purchase[]
 
   createdAt DateTime  @default(now())
@@ -75,11 +74,11 @@ model Chapter {
   muxData MuxData?
 
   courseId String
-  course   Course @relation(fields: [courseId], references: [id], onDelete: Cascade)
-  userProgresss UserProgress[]
+  course Course @relation(fields: [courseId], references: [id], onDelete: Cascade)
+  userProgress UserProgress[]
   
-  createdAt DateTime @default( now())
-  updaedate DateTime @updatedAt
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 
   @@index([courseId])
 }
@@ -102,6 +101,7 @@ model UserProgress {
   chapter Chapter @relation(fields: [chapterId], references: [id], onDelete: Cascade)
 
   isCompleted Boolean @default(false)
+
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
