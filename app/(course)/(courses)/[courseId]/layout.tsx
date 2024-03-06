@@ -17,6 +17,7 @@ const CourseLayout = async ({
         redirect("/");
     }
 
+    // fetch course with its ID, and display to student.
     const course = await db.course.findUnique({
         where: {
             id: params.courseId,
